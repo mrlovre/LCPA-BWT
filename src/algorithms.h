@@ -10,7 +10,7 @@
 using namespace std;
 
 using interval = vector<int>;
-using index_occInS = vector<int>;
+using index_occInS = pair<int, int>;
 
 vector<interval> getIntervals(interval ij);
 

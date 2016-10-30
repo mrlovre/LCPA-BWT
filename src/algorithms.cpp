@@ -42,18 +42,29 @@ interval setInterval(int start, int end) {
  * @return: int that represent number of occurrances
  * */
 int computeNumberOfOccurrencesLetterSmallerThenC(char c) {
-    int index = lut[c][0]; // index of char c
+    int index = lut[c].first; // index of char c
     int sum = 0;
     for (int i = 0; i < index; ++i)
-        sum += lut[bigSigma[i]][1];
+        sum += lut[bigSigma[i]].second; //number of occurrences letter bigSigma[i] in string S
     return sum;
 }
 
+/**
+ * Fucntion that crete bitvector of string defined in current node of the tree. Last two params are references on
+ * left and right substring that we set as string of left and right child node.
+ * @param bwt: represent bwt of current node that we want to split on 2 sides, left (i.e. bitvect == 0) and right
+ * (i.e. bitvect(i) == 1).
+ * @param l: start index from which we start to crete bitVector (included)
+ * @param m: end index till which we create bitvector (included)
+ * @param bwtl: left substring of current bwt ( all characters that have bitvect(i) == 0 goes in this)
+ * @param bwtr: right substring of current bwt ( all characters that have bitvect(i) == 1 goes in this)
+ * @return bitvector of current bwt.
+ * */
 vector<bool> createBitVector(vector<char> &bwt, int l, int m, vector<char> &bwtl, vector<char> &bwtr) {
     vector<bool> bitVec(bwt.size());
     for (unsigned long i = 0, len = bwt.size(); i < len; ++i) {
         char c = bwt[i];
-        int index = lut[c][0];
+        int index = lut[c].first;
         if (l <= index && m >= index) {
             bwtl.push_back(c);
             bitVec[i] = 0;
@@ -68,7 +79,7 @@ vector<bool> createBitVector(vector<char> &bwt, int l, int m, vector<char> &bwtl
 /**
  * Function return number of occurrances bool value 'identity' in 'bitVec' in interval [start, end>.
  * @param identity: bool that represent value that we count in bitVector. It can be false(0) or true(1).
- * @param bitVec: indicator ... dont have idea how to explain
+ * @param bitVec: indicator vector that tell us whatever char c goes in left or right subtree
  * @return: value that represents number of 'identity' value in bitVector
  * */
 int rankFun(bool identity, vector<bool> &bitVec, int start, int end) {
@@ -93,8 +104,7 @@ void getIntervalsRec(vector<char> &bwt, interval &ij, interval &lr, vector<inter
     } else {
         int m = (lr[0] + lr[1]) / 2;
 
-        vector<char> bwtl;
-        vector<char> bwtr;
+        vector<char> bwtl, bwtr;
         vector<bool> bitVec = createBitVector(bwt, lr[0], m, bwtl, bwtr);
 
         int a0 = rankFun(0, bitVec, 0, ij[0] - 1);
@@ -132,7 +142,7 @@ vector<interval> getIntervals(interval ij) {
 
 int main2() {
 
-    sigma = 6;
+    sigma = 7;
 
     bigSigma.push_back('$');
     bigSigma.push_back('_');
