@@ -130,7 +130,7 @@ vector<interval> getIntervals(interval ij) {
     return list;
 }
 
-int main() {
+int main2() {
 
     sigma = 6;
 
