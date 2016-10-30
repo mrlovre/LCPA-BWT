@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int main() {
+void test1() {
 	cout << "Pozdrav, Zuzule!" << endl;
 	Alphabet a("GFADBCE$");
 	cout << a[2] << endl;
@@ -16,5 +16,9 @@ int main() {
 	cout << a['M'] << endl;
 	string s = "ABBACDGA$";
 	Bwt bwt(s, a);
+}
+
+int main() {
+	test1();
 	return 0;
 }
