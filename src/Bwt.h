@@ -10,13 +10,17 @@
 
 using namespace std;
 
+#include <vector>
+
 #include "Alphabet.h"
 
 class Bwt {
-private:
-	const Alphabet& alphabet;
-public:
-	Bwt(const string&, Alphabet&);
+ public:
+    Bwt(const string&, const Alphabet&);
+    string show();
+ private:
+    const Alphabet &alphabet_;
+    vector<bitvector> array_;
 };
 
 #endif //SRC_BWT_H

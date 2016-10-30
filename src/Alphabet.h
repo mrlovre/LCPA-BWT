@@ -13,14 +13,23 @@
 
 using namespace std;
 
+typedef vector<bool> bitvector;
+
 class Alphabet {
-private:
-	map<char, int> charToInt = map<char, int>();
-	map<int, char> intToChar = map<int, char>();
-public:
-	Alphabet(const string&);
-	int operator[](const char &);
-	char operator[](const int &);
+ public:
+    Alphabet(const string&, int = 0);
+    Alphabet(Alphabet&&);
+    int operator[](char) const;
+    char operator[](int) const;
+    int length() const;
+    operator const string() const;
+ private:
+    map<char, int> charToInt_;
+    map<int, char> intToChar_;
+    const int length_;
+    string sorted_alphabet_;
 };
+
+string show_bitvector(bitvector);
 
 #endif /* SRC_ALPHABET_H_ */

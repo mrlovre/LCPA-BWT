@@ -5,7 +5,6 @@
 using namespace std;
 
 void test1() {
-	cout << "Pozdrav, Zuzule!" << endl;
 	Alphabet a("GFADBCE$");
 	cout << a[2] << endl;
 	cout << a[6] << endl;
@@ -14,11 +13,15 @@ void test1() {
 	cout << a[-1] << endl;
 	cout << a[8] << endl;
 	cout << a['M'] << endl;
-	string s = "ABBACDGA$";
-	Bwt bwt(s, a);
+}
+
+void test2() {
+    Alphabet a("abrcd$");
+    Bwt bwt("abracadabra$", a);
+    cout << bwt.show() << endl;
 }
 
 int main() {
-	test1();
+	test2();
 	return 0;
 }
