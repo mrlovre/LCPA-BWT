@@ -21,15 +21,17 @@ Bwt::Bwt(const string &s, const Alphabet &a)
           symbol_occurrences_(map<char, int>()) {
     map<char, bitvector> symbols_mapping;
 
-    auto const max_length = a.length();
+    auto const upper_bound = 1 << (int) ceil(log2(a.length()));
+    auto const redundancy = upper_bound - a.length() - 1;
     for (auto const c : (const string) a) {
-        auto current_length = max_length;
+        auto current_length = upper_bound;
         auto current_index = a[c];
-        do {
+        auto has_redundancy = current_index > upper_bound - 2 * redundancy;
+        while (current_length > 1 << has_redundancy) {
             symbols_mapping[c].push_back(current_index >= current_length / 2);
             current_index %= current_length / 2;
             current_length /= 2;
-        } while (current_length > 1);
+        }
     }
 
     for (auto const &c : s) {
@@ -50,7 +52,7 @@ string indent(int index) {
 
 string Bwt::show() {
     auto s = string();
-    for (auto index = 1; index < array_.size(); index++) {
+    for (auto index = 1u; index < array_.size(); index++) {
         s += indent(index) + show_bitvector(array_[index]) + '\n';
     }
     return s;

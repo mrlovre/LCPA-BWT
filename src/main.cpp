@@ -16,8 +16,8 @@ void test1() {
 }
 
 void test2() {
-    Alphabet a("abrcd$");
-    Bwt bwt("abracadabra$", a);
+    Alphabet a("alenp_$");
+    Bwt bwt("nle_pl$nnlleee_eaae", a);
     cout << bwt.show() << endl;
 }
 
