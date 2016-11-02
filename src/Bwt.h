@@ -18,9 +18,12 @@ class Bwt {
  public:
     Bwt(const string&, const Alphabet&);
     string show();
+
+    int get_symbol_count(char);
  private:
     const Alphabet &alphabet_;
     vector<bitvector> array_;
+    map<char, int> symbol_occurrences_;
 };
 
 #endif //SRC_BWT_H

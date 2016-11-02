@@ -7,11 +7,9 @@
 
 #include<vector>
 
-using namespace std;
+using interval = std::pair<int, int>;
+using index_occInS = std::pair<int, int>;
 
-using interval = vector<int>;
-using index_occInS = pair<int, int>;
-
-vector<interval> getIntervals(interval ij);
+std::vector<interval> getIntervals(interval ij);
 
 #endif //LCPA_BWT_ALGORITHMS_H

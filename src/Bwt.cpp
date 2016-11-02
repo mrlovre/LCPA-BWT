@@ -17,7 +17,8 @@ using namespace std;
 
 Bwt::Bwt(const string &s, const Alphabet &a)
         : alphabet_(a),
-          array_(vector<bitvector>(1 << (int) ceil(log2(a.length())), bitvector())) {
+          array_(vector<bitvector>(1 << (int) ceil(log2(a.length())), bitvector())),
+          symbol_occurrences_(map<char, int>()) {
     map<char, bitvector> symbols_mapping;
 
     auto const max_length = a.length();
@@ -32,6 +33,7 @@ Bwt::Bwt(const string &s, const Alphabet &a)
     }
 
     for (auto const &c : s) {
+        symbol_occurrences_[c]++;
         auto mapping = symbols_mapping[c];
         auto index = 1;
         for (auto const b : mapping) {

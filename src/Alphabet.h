@@ -13,7 +13,7 @@
 
 using namespace std;
 
-typedef vector<bool> bitvector;
+using bitvector = vector<bool>;
 
 class Alphabet {
  public:

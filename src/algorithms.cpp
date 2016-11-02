@@ -12,15 +12,15 @@ int sigma = 10;
 /**
  * bigSigma is ordered alphabet (list/ordered set)
  */
-vector<char> bigSigma;
+std::vector<char> bigSigma;
 /**
  * lut table with pair char => index of char in bigSigma, number of occurrences characters in S which are < c
  * */
-map<char, index_occInS> lut;
+std::map<char, index_occInS> lut;
 /**
  * BWT
  */
-vector<char> BWT;
+std::vector<char> BWT;
 
 /**
  * Function for initialize interval defined with [start, end].
@@ -29,9 +29,7 @@ vector<char> BWT;
  * @return: interval defined with [start, end>
  * */
 interval setInterval(int start, int end) {
-    interval in(2);
-    in[0] = start;
-    in[1] = end;
+    interval in(start, end);
     return in;
 }
 
@@ -60,8 +58,9 @@ int computeNumberOfOccurrencesLetterSmallerThenC(char c) {
  * @param bwtr: right substring of current bwt ( all characters that have bitvect(i) == 1 goes in this)
  * @return bitvector of current bwt.
  * */
-vector<bool> createBitVector(vector<char> &bwt, int l, int m, vector<char> &bwtl, vector<char> &bwtr) {
-    vector<bool> bitVec(bwt.size());
+std::vector<bool>
+createBitVector(std::vector<char> &bwt, int l, int m, std::vector<char> &bwtl, std::vector<char> &bwtr) {
+    std::vector<bool> bitVec(bwt.size());
     for (unsigned long i = 0, len = bwt.size(); i < len; ++i) {
         char c = bwt[i];
         int index = lut[c].first;
@@ -82,7 +81,7 @@ vector<bool> createBitVector(vector<char> &bwt, int l, int m, vector<char> &bwtl
  * @param bitVec: indicator vector that tell us whatever char c goes in left or right subtree
  * @return: value that represents number of 'identity' value in bitVector
  * */
-int rankFun(bool identity, vector<bool> &bitVec, int start, int end) {
+int rankFun(bool identity, std::vector<bool> &bitVec, int start, int end) {
     int sum = 0;
     for (int i = start; i < end; ++i)
         sum += bitVec[i] == identity ? 1 : 0;
@@ -96,31 +95,31 @@ int rankFun(bool identity, vector<bool> &bitVec, int start, int end) {
  * @param lr: interval of subalphabet
  * @param list: list of all c-omega intervals of given bwt
  * */
-void getIntervalsRec(vector<char> &bwt, interval &ij, interval &lr, vector<interval> &list) {
-    if (lr[0] == lr[1]) {
-        char c = bigSigma[lr[0]];
+void getIntervalsRec(std::vector<char> &bwt, interval &ij, interval &lr, std::vector<interval> &list) {
+    if (lr.first == lr.second) {
+        char c = bigSigma[lr.first];
         int Cc = computeNumberOfOccurrencesLetterSmallerThenC(c);
-        list.push_back(setInterval(Cc + ij[0], Cc + ij[1]));
+        list.push_back(setInterval(Cc + ij.first, Cc + ij.second));
     } else {
-        int m = (lr[0] + lr[1]) / 2;
+        int m = (lr.first + lr.second) / 2;
 
-        vector<char> bwtl, bwtr;
-        vector<bool> bitVec = createBitVector(bwt, lr[0], m, bwtl, bwtr);
+        std::vector<char> bwtl, bwtr;
+        std::vector<bool> bitVec = createBitVector(bwt, lr.first, m, bwtl, bwtr);
 
-        int a0 = rankFun(0, bitVec, 0, ij[0] - 1);
-        int b0 = a0 + rankFun(0, bitVec, ij[0] - 1, ij[1]);
+        int a0 = rankFun(0, bitVec, 0, ij.first - 1);
+        int b0 = a0 + rankFun(0, bitVec, ij.first - 1, ij.second);
 
-        int a1 = ij[0] - 1 - a0;
-        int b1 = ij[1] - b0;
+        int a1 = ij.first - 1 - a0;
+        int b1 = ij.second - b0;
 
         if (b0 > a0) {
             interval int1 = setInterval(a0 + 1, b0);
-            interval int2 = setInterval(lr[0], m);
+            interval int2 = setInterval(lr.first, m);
             getIntervalsRec(bwtl, int1, int2, list);
         }
         if (b1 > a1) {
             interval int1 = setInterval(a1 + 1, b1);
-            interval int2 = setInterval(m + 1, lr[1]);
+            interval int2 = setInterval(m + 1, lr.second);
             getIntervalsRec(bwtr, int1, int2, list);
         }
     }
@@ -131,8 +130,8 @@ void getIntervalsRec(vector<char> &bwt, interval &ij, interval &lr, vector<inter
  * @param ij: interval form which we want to get all c-omega subintervals
  * @return: all c-omega intervals
  * */
-vector<interval> getIntervals(interval ij) {
-    vector<interval> list;
+std::vector<interval> getIntervals(interval ij) {
+    std::vector<interval> list;
     interval alphabet = setInterval(0, sigma);
 
     // func that compute all subinterval
@@ -180,8 +179,8 @@ int main2() {
     BWT.push_back('a');
     BWT.push_back('e');
 
-    vector<interval> lista = getIntervals(setInterval(1, 19));
-    for (int i = 0; i < 7; i++)
-        std::cout << "[" << lista[i][0] << " .. " << lista[i][1] << "]" << std::endl;
+    std::vector<interval> lista = getIntervals(setInterval(6, 11));
+    for (int i = 0; i < lista.size(); i++)
+        std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
     return 0;
 }
