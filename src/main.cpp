@@ -16,9 +16,14 @@ void test1() {
 }
 
 void test2() {
-    Alphabet a("alenp_$");
-    Bwt bwt("nle_pl$nnlleee_eaae", a);
+    string s = "nle_pl$nnlleee_eaae";
+    Alphabet a(s, true);
+    Bwt bwt(s, a);
     cout << bwt.show() << endl;
+    cout << "Symbols count:" << endl;
+    for (auto const c : (string) a) {
+        cout << c << " " << bwt.get_symbol_count(c) << endl;
+    }
 }
 
 int main() {

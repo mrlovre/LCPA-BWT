@@ -17,9 +17,8 @@ using namespace std;
 class Bwt {
  public:
     Bwt(const string&, const Alphabet&);
-    string show();
-
-    int get_symbol_count(char);
+    string show() const;
+    int get_symbol_count(char) const;
  private:
     const Alphabet &alphabet_;
     vector<bitvector> array_;

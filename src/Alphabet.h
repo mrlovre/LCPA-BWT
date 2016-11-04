@@ -17,7 +17,7 @@ using bitvector = vector<bool>;
 
 class Alphabet {
  public:
-    Alphabet(const string&, int = 0);
+    Alphabet(const string&, bool=false);
     Alphabet(Alphabet&&);
     int operator[](char) const;
     char operator[](int) const;
@@ -26,7 +26,6 @@ class Alphabet {
  private:
     map<char, int> charToInt_;
     map<int, char> intToChar_;
-    const int length_;
     string sorted_alphabet_;
 };
 

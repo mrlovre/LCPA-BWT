@@ -50,10 +50,14 @@ string indent(int index) {
     return string(level, '-');
 }
 
-string Bwt::show() {
+string Bwt::show() const {
     auto s = string();
     for (auto index = 1u; index < array_.size(); index++) {
         s += indent(index) + show_bitvector(array_[index]) + '\n';
     }
     return s;
+}
+
+int Bwt::get_symbol_count(char c) const {
+    return symbol_occurrences_.at(c);
 }
