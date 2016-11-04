@@ -6,7 +6,6 @@
  */
 
 #include <map>
-#include <utility>
 #include <algorithm>
 
 #include "Alphabet.h"

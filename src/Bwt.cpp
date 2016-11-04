@@ -7,11 +7,9 @@
 
 #include <vector>
 #include <bitset>
-#include <algorithm>
 #include <cmath>
 
 #include "Bwt.h"
-#include "Alphabet.h"
 
 using namespace std;
 
@@ -43,6 +41,10 @@ Bwt::Bwt(const string &s, const Alphabet &a)
             index = 2 * index + b;
         }
     }
+}
+
+bitvector &Bwt::get_bitvector_for_index(int index) {
+    return array_[index];
 }
 
 string indent(int index) {

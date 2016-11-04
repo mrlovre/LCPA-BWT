@@ -20,6 +20,8 @@ class Bwt {
     string show();
 
     int get_symbol_count(char);
+
+    bitvector &get_bitvector_for_index(int index);
  private:
     const Alphabet &alphabet_;
     vector<bitvector> array_;

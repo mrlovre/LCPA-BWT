@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Alphabet.h"
 #include "Bwt.h"
+#include "algorithms.h"
 
 using namespace std;
 
@@ -21,7 +22,17 @@ void test2() {
     cout << bwt.show() << endl;
 }
 
+void test3() {
+    Alphabet a("alenp_$");
+    Bwt bwt("nle_pl$nnlleee_eaae", a);
+
+    interval ij(6, 11);
+    std::vector<interval> lista = getIntervals(a, bwt, ij);
+    for (int i = 0; i < lista.size(); i++)
+        std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
+}
+
 int main() {
-	test2();
+    test3();
 	return 0;
 }
