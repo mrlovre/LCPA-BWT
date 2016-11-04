@@ -7,15 +7,18 @@
 
 #include <map>
 #include <algorithm>
+#include <set>
 
 #include "Alphabet.h"
 
-Alphabet::Alphabet(const string &s, int offset)
+Alphabet::Alphabet(const string &s, bool extract_from_string)
         : charToInt_(map<char, int>()),
-          intToChar_(map<int, char>()),
-          length_(s.length()) {
+          intToChar_(map<int, char>()) {
     auto ms = string(s);
-    sort(ms.begin(), ms.end());
+    if (extract_from_string) {
+        auto charset = set<char>(ms.begin(), ms.end());
+        ms = string(charset.begin(), charset.end());
+    }
     sorted_alphabet_ = move(ms);
     auto i = 0;
     for (const auto &c : sorted_alphabet_) {
@@ -42,7 +45,7 @@ char Alphabet::operator[](int i) const {
 }
 
 int Alphabet::length() const {
-    return length_;
+    return sorted_alphabet_.length();
 }
 
 Alphabet::operator const string() const {
@@ -54,4 +57,3 @@ string show_bitvector(bitvector bv) {
     for_each(bv.begin(), bv.end(), [&s](const bool &b) {s += '0' + (int)b;});
     return s;
 }
-

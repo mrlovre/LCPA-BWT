@@ -18,9 +18,7 @@ class Bwt {
  public:
     Bwt(const string&, const Alphabet&);
     string show();
-
     int get_symbol_count(char);
-
     bitvector &get_bitvector_for_index(int index);
  private:
     const Alphabet &alphabet_;
