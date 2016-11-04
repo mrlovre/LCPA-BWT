@@ -6,14 +6,14 @@
 using namespace std;
 
 void test1() {
-	Alphabet a("GFADBCE$");
-	cout << a[2] << endl;
-	cout << a[6] << endl;
-	cout << a['G'] << endl;
-	cout << a['F'] << endl;
-	cout << a[-1] << endl;
-	cout << a[8] << endl;
-	cout << a['M'] << endl;
+    Alphabet a("GFADBCE$");
+    cout << a[2] << endl;
+    cout << a[6] << endl;
+    cout << a['G'] << endl;
+    cout << a['F'] << endl;
+    cout << a[-1] << endl;
+    cout << a[8] << endl;
+    cout << a['M'] << endl;
 }
 
 void test2() {
@@ -33,11 +33,12 @@ void test3() {
 
     interval ij(6, 11);
     std::vector<interval> lista = getIntervals(a, bwt, ij);
-    for (int i = 0; i < lista.size(); i++)
+    for (int i = 0u; i < lista.size(); i++) {
         std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
+    }
 }
 
 int main() {
     test3();
-	return 0;
+    return 0;
 }
