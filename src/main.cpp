@@ -31,7 +31,7 @@ void test3() {
     Alphabet a("alenp_$");
     Bwt bwt("nle_pl$nnlleee_eaae", a);
 
-    interval ij(6, 11);
+    interval ij(1, 19);
     std::vector<interval> lista = getIntervals(a, bwt, ij);
     for (int i = 0u; i < lista.size(); i++) {
         std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;

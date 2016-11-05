@@ -41,7 +41,6 @@ int computeNumberOfOccurrencesLetterSmallerThenC(Alphabet &a, Bwt &bwt, char c) 
 std::vector<bool> createBitVector(std::vector<char> &bwt, int l, int m) {
     std::vector<bool> bitVec(bwt.size());
     for (unsigned long i = 0, len = bwt.size(); i < len; ++i) {
-        char c = bwt[i];
         int index = 0;//lut[c].first;
         if (l <= index && m >= index) {
             bitVec[i] = 0;
@@ -111,6 +110,6 @@ std::vector<interval> getIntervals(Alphabet &a, Bwt &bwt, interval ij) {
     interval alp = setInterval(0, a.length());
 
     // func that compute all subinterval
-    getIntervalsRec(a, bwt, 0, ij, alp, list);
+    getIntervalsRec(a, bwt, 1, ij, alp, list);
     return list;
 }

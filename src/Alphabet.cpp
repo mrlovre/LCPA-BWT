@@ -20,6 +20,7 @@ Alphabet::Alphabet(const string &s, bool extract_from_string)
         ms = string(charset.begin(), charset.end());
     }
     sorted_alphabet_ = move(ms);
+    sort(sorted_alphabet_.begin(), sorted_alphabet_.end());
     auto i = 0;
     for (const auto &c : sorted_alphabet_) {
         charToInt_.insert(make_pair(c, i));
@@ -45,7 +46,7 @@ char Alphabet::operator[](int i) const {
 }
 
 int Alphabet::length() const {
-    return sorted_alphabet_.length();
+    return static_cast<int>(sorted_alphabet_.length());
 }
 
 Alphabet::operator const string() const {
