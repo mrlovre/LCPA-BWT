@@ -3,6 +3,7 @@
 //
 #include "algorithms.h"
 #include <iostream>
+#include <bits/stl_queue.h>
 
 /**
  * Function for initialize interval defined with [start, end].
@@ -112,4 +113,27 @@ std::vector<interval> getIntervals(Alphabet &a, Bwt &bwt, interval ij) {
     // func that compute all subinterval
     getIntervalsRec(a, bwt, 1, ij, alp, list);
     return list;
+}
+
+vector<int> calculate_lcp(string s) {
+    Alphabet a(s);
+    Bwt bwt(s, a);
+    auto n = s.length();
+    vector<interval> list;
+    const int bottom = -2;
+    vector<int> lcp(n + 1, bottom);
+    lcp[0] = -1;
+    lcp[n] = -1;
+    queue<pair<interval, int>> q;
+    q.push(make_pair(make_pair(1, n), 0));
+    for (; !q.empty(); q.pop()) {
+        auto dq = q.front();
+        list = getIntervals(a, bwt, dq.first);
+        for (auto i : list) {
+            if (lcp[i.second + 1] == bottom) {
+                q.push(make_pair(i, dq.second + 1));
+                lcp[i.second + 1] = dq.second;
+            }
+        }
+    }
 }
