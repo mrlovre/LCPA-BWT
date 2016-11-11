@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Alphabet.h"
-#include "Bwt.h"
 #include "algorithms.h"
+#include "BWTree.h"
 
 using namespace std;
 
@@ -19,7 +19,7 @@ void test1() {
 void test2() {
     string s = "nle_pl$nnlleee_eaae";
     Alphabet a(s, true);
-    Bwt bwt(s, a);
+    BWTree bwt(s, a);
     cout << bwt.show() << endl;
     cout << "Symbols count:" << endl;
     for (auto const c : (string) a) {
@@ -29,11 +29,11 @@ void test2() {
 
 void test3() {
     Alphabet a("alenp_$");
-    Bwt bwt("nle_pl$nnlleee_eaae", a);
+    BWTree bwt("nle_pl$nnlleee_eaae", a);
 
     interval ij(1, 19);
     std::vector<interval> lista = getIntervals(a, bwt, ij);
-    for (int i = 0u; i < lista.size(); i++) {
+    for (auto i = 0u; i < lista.size(); i++) {
         std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
     }
 }

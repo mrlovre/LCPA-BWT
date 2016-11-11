@@ -5,8 +5,8 @@
  *      Author: frka
  */
 
-#ifndef SRC_BWT_H
-#define SRC_BWT_H
+#ifndef SRC_BWTREE_H
+#define SRC_BWTREE_H
 
 using namespace std;
 
@@ -14,9 +14,9 @@ using namespace std;
 
 #include "Alphabet.h"
 
-class Bwt {
+class BWTree {
  public:
-    Bwt(const string&, const Alphabet&);
+    BWTree(const string&, const Alphabet&);
     string show() const;
     int get_symbol_count(char) const;
     bitvector &get_bitvector_for_index(int index);
@@ -26,4 +26,4 @@ class Bwt {
     map<char, int> symbol_occurrences_;
 };
 
-#endif //SRC_BWT_H
+#endif

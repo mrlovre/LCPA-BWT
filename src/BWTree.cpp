@@ -5,15 +5,16 @@
  *      Author: frka
  */
 
+#include "BWTree.h"
+
 #include <vector>
 #include <bitset>
 #include <cmath>
 
-#include "Bwt.h"
 
 using namespace std;
 
-Bwt::Bwt(const string &s, const Alphabet &a)
+BWTree::BWTree(const string &s, const Alphabet &a)
         : alphabet_(a),
           array_(vector<bitvector>(1 << (int) ceil(log2(a.length())), bitvector())),
           symbol_occurrences_(map<char, int>()) {
@@ -43,7 +44,7 @@ Bwt::Bwt(const string &s, const Alphabet &a)
     }
 }
 
-bitvector &Bwt::get_bitvector_for_index(int index) {
+bitvector &BWTree::get_bitvector_for_index(int index) {
     return array_[index];
 }
 
@@ -52,7 +53,7 @@ string indent(int index) {
     return string(level, '-');
 }
 
-string Bwt::show() const {
+string BWTree::show() const {
     auto s = string();
     for (auto index = 1u; index < array_.size(); index++) {
         s += indent(index) + show_bitvector(array_[index]) + '\n';
@@ -60,6 +61,6 @@ string Bwt::show() const {
     return s;
 }
 
-int Bwt::get_symbol_count(char c) const {
+int BWTree::get_symbol_count(char c) const {
     return symbol_occurrences_.at(c);
 }
