@@ -3,7 +3,8 @@
 //
 #include "algorithms.h"
 #include <iostream>
-#include <bits/stl_queue.h>
+#include <malloc.h>
+//#include <bits/stl_queue.h>
 
 /**
  * Function for initialize interval defined with [start, end].
@@ -115,6 +116,17 @@ std::vector<interval> getIntervals(Alphabet &a, BWTree &bwt, interval ij) {
     return list;
 }
 
+char *bw_transformation(int *SA, char *S, int n) {
+    char *BWTrans = (char *) malloc(n * sizeof(char));
+
+    for (int i = 0, tmp = 0; i < n; ++i) {
+        tmp = SA[i];
+        BWTrans[i] = tmp == 0 ? '$' : S[tmp - 1];
+    }
+    return BWTrans;
+}
+
+/*
 vector<int> calculate_lcp(string s) {
     Alphabet a(s);
     BWTree bwt(s, a);
@@ -136,4 +148,4 @@ vector<int> calculate_lcp(string s) {
             }
         }
     }
-}
+}*/

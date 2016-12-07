@@ -1,7 +1,9 @@
 #include <iostream>
 #include "Alphabet.h"
 #include "algorithms.h"
-#include "BWTree.h"
+#include "divsufsort.h"
+#include <string.h>
+#include <malloc.h>
 
 using namespace std;
 
@@ -38,7 +40,96 @@ void test3() {
     }
 }
 
+void test4() {
+    // intput data
+    char *Text = "abracadabra";
+    int n = strlen(Text);
+    int i, j;
+
+    // allocate
+    int *SA = (int *) malloc(n * sizeof(int));
+
+    // sort
+    divsufsort((unsigned char *) Text, SA, n, 1);
+
+    // output
+    for (i = 0; i < n; ++i) {
+        printf("SA[%2d] = %2d: ", i, SA[i]);
+        for (j = SA[i]; j < n; ++j) {
+            printf("%c", Text[j]);
+        }
+        printf("$\n");
+    }
+
+    // deallocate
+    free(SA);
+}
+
+void test5() {
+    // intput data
+    char *S = "el_anele_lepanelen$";
+    int n = strlen(S);
+
+    // allocate
+    int *SA = (int *) malloc(n * sizeof(int));
+
+    // sort
+    divsufsort((unsigned char *) S, SA, n, 0);
+
+    char *BWTrans = (char *) malloc(n * sizeof(char));
+
+    for (int i = 0, tmp = 0; i < n + 1; ++i) {
+        tmp = SA[i];
+        BWTrans[i] = tmp == 0 ? '$' : S[tmp - 1];
+    }
+
+    // output
+    for (int i = 0; i < n; ++i) {
+        printf("SA[%2d] = %2d: ", i, SA[i]);
+        for (int j = SA[i]; j < n; ++j) {
+            printf("%c", S[j]);
+        }
+        printf("$\n");
+    }
+
+    for (int i = 0; i < n; ++i) {
+        printf("%c", BWTrans[i]);
+    }
+
+    // deallocate
+    free(SA);
+    free(BWTrans);
+}
+
+void test6() {
+    // intput data
+    char *S = "el_anele_lepanelen$";
+    int n = strlen(S);
+
+    // allocate
+    int *SA = (int *) malloc(n * sizeof(int));
+
+    // sort
+    divsufsort((unsigned char *) S, SA, n, 0);
+
+    char *BWTrans = bw_transformation(SA, S, n);
+
+    Alphabet a(string(S), true);
+    BWTree bwt(string(BWTrans), a);
+
+    interval ij(1, 19);
+    std::vector<interval> lista = getIntervals(a, bwt, ij);
+    for (auto i = 0u; i < lista.size(); i++) {
+        std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
+    }
+
+
+    // deallocate
+    free(SA);
+    free(BWTrans);
+}
+
 int main() {
-    test3();
+    test6();
     return 0;
 }
