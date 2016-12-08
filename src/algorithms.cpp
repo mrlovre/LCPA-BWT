@@ -27,7 +27,7 @@ int computeNumberOfOccurrencesLetterSmallerThenC(Alphabet &a, BWTree &bwt, char 
  * @param bitVec: indicator vector that tell us whatever char c goes in left or right subtree
  * @return: value that represents number of 'identity' value in bitVector
  * */
-int rankFun(bool identity, std::vector<bool> &bitVec, int start, int end) {
+int rankFun(bool identity, const bitvector &bitVec, int start, int end) {
     int sum = 0;
     for (int i = start; i < end; ++i)
         sum += bitVec[i] == identity ? 1 : 0;
@@ -49,7 +49,7 @@ void getIntervalsRec(Alphabet &a, BWTree &bwt, int indexOfNode, interval &ij, in
     } else {
         int m = (lr.first + lr.second) / 2;
 
-        bitvector bitVec = bwt.get_bitvector_for_index(indexOfNode);
+        auto &bitVec = bwt.get_bitvector_for_index(indexOfNode);
 
         int a0 = rankFun(0, bitVec, 0, ij.first - 1);
         int b0 = a0 + rankFun(0, bitVec, ij.first - 1, ij.second);
