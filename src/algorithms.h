@@ -15,6 +15,6 @@ std::vector<interval> getIntervals(Alphabet &a, BWTree &bwt, interval ij);
 
 std::string bw_transformation(std::string S);
 
-std::vector<int> &calculate_lcp(std::string s);
+std::vector<int> calculate_lcp(std::string s);
 
 #endif //LCPA_BWT_ALGORITHMS_H

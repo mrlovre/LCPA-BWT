@@ -118,12 +118,12 @@ void test7() {
     // intput data
     string S("el_anele_lepanelen$");
 
-    std::vector<int> &lista = calculate_lcp(S);
+    std::vector<int> lista = calculate_lcp(S);
     std::cout << "[";
     for (auto i = 0u; i < lista.size(); i++) {
         std::cout << "  " << lista[i];
     }
-    std::cout << std::endl;
+    std::cout << "]" << std::endl;
     // deallocate
 }
 
@@ -148,12 +148,12 @@ void test9() {
     BWTree bwt(string(BWTrans), a);
 
     for (int i = 0; i < 4; ++i) {
-        bitvector bitVec = (vector<bool> &&) bwt.get_bitvector_for_index(2);
+        bitvector bitVec = bwt.get_bitvector_for_index(2);
         std::cout << show_bitvector(bitVec) << std::endl;
     }
 }
 
 int main() {
-    test9();
+    test7();
     return 0;
 }
