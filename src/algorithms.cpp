@@ -49,9 +49,7 @@ void getIntervalsRec(Alphabet &a, BWTree &bwt, int indexOfNode, interval &ij, in
     } else {
         int m = (lr.first + lr.second) / 2;
 
-        bitvector bitVec = (vector<bool> &&) bwt.get_bitvector_for_index(indexOfNode);
-
-        std::cout << show_bitvector(bitVec) << std::endl;
+        bitvector bitVec = bwt.get_bitvector_for_index(indexOfNode);
 
         int a0 = rankFun(0, bitVec, 0, ij.first - 1);
         int b0 = a0 + rankFun(0, bitVec, ij.first - 1, ij.second);
@@ -104,7 +102,7 @@ std::string bw_transformation(std::string S) {
 }
 
 
-vector<int> &calculate_lcp(string s) {
+vector<int> calculate_lcp(string s) {
     string BWTrans = bw_transformation(s);
     Alphabet a(s, true);
     BWTree bwt(BWTrans, a);
@@ -118,7 +116,6 @@ vector<int> &calculate_lcp(string s) {
     q.push(make_pair(make_pair(1, n), 0));
     for (; !q.empty(); q.pop()) {
         auto dq = (pair<interval, int> &&) q.front();
-        std::cout << "[ " << dq.first.first << ", " << dq.first.second << "] " << "\t: " << dq.second << std::endl;
         list = getIntervals(a, bwt, dq.first);
         for (auto i : list) {
             if (lcp[i.second + 1] == bottom) {
