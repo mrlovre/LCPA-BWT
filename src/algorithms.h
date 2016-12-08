@@ -13,6 +13,8 @@ using index_occInS = std::pair<int, int>;
 
 std::vector<interval> getIntervals(Alphabet &a, BWTree &bwt, interval ij);
 
-char *bw_transformation(int *SA, char *S, int n);
+std::string bw_transformation(std::string S);
+
+std::vector<int> &calculate_lcp(std::string s);
 
 #endif //LCPA_BWT_ALGORITHMS_H

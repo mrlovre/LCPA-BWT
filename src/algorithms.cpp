@@ -4,18 +4,8 @@
 #include "algorithms.h"
 #include <iostream>
 #include <malloc.h>
-//#include <bits/stl_queue.h>
-
-/**
- * Function for initialize interval defined with [start, end].
- * @param start: int that represent index of start interval. (included)
- * @param end: int that represent index of end interval. (excluded)
- * @return: interval defined with [start, end>
- * */
-interval setInterval(int start, int end) {
-    interval in(start, end);
-    return in;
-}
+#include <queue>
+#include "divsufsort.h"
 
 
 /**
@@ -29,28 +19,6 @@ int computeNumberOfOccurrencesLetterSmallerThenC(Alphabet &a, BWTree &bwt, char 
     for (int i = 0; i < index; ++i)
         sum += bwt.get_symbol_count(a[i]); //number of occurrences letter bigSigma[i] in string S
     return sum;
-}
-
-/**
- * Fucntion that crete bitvector of string defined in current node of the tree. Last two params are references on
- * left and right substring that we set as string of left and right child node.
- * @param bwt: represent bwt of current node that we want to split on 2 sides, left (i.e. bitvect == 0) and right
- * (i.e. bitvect(i) == 1).
- * @param l: start index from which we start to crete bitVector (included)
- * @param m: end index till which we create bitvector (included)
- * @return bitvector of current bwt.
- * */
-std::vector<bool> createBitVector(std::vector<char> &bwt, int l, int m) {
-    std::vector<bool> bitVec(bwt.size());
-    for (unsigned long i = 0, len = bwt.size(); i < len; ++i) {
-        int index = 0;//lut[c].first;
-        if (l <= index && m >= index) {
-            bitVec[i] = 0;
-        } else {
-            bitVec[i] = 1;
-        }
-    }
-    return bitVec;
 }
 
 /**
@@ -77,11 +45,13 @@ void getIntervalsRec(Alphabet &a, BWTree &bwt, int indexOfNode, interval &ij, in
     if (lr.first == lr.second) {
         char c = a[lr.first];
         int Cc = computeNumberOfOccurrencesLetterSmallerThenC(a, bwt, c);
-        list.push_back(setInterval(Cc + ij.first, Cc + ij.second));
+        list.push_back(make_pair(Cc + ij.first, Cc + ij.second));
     } else {
         int m = (lr.first + lr.second) / 2;
 
-        bitvector bitVec = bwt.get_bitvector_for_index(indexOfNode);
+        bitvector bitVec = (vector<bool> &&) bwt.get_bitvector_for_index(indexOfNode);
+
+        std::cout << show_bitvector(bitVec) << std::endl;
 
         int a0 = rankFun(0, bitVec, 0, ij.first - 1);
         int b0 = a0 + rankFun(0, bitVec, ij.first - 1, ij.second);
@@ -90,13 +60,13 @@ void getIntervalsRec(Alphabet &a, BWTree &bwt, int indexOfNode, interval &ij, in
         int b1 = ij.second - b0;
 
         if (b0 > a0) {
-            interval int1 = setInterval(a0 + 1, b0);
-            interval int2 = setInterval(lr.first, m);
+            interval int1 = make_pair(a0 + 1, b0);
+            interval int2 = make_pair(lr.first, m);
             getIntervalsRec(a, bwt, indexOfNode * 2, int1, int2, list);
         }
         if (b1 > a1) {
-            interval int1 = setInterval(a1 + 1, b1);
-            interval int2 = setInterval(m + 1, lr.second);
+            interval int1 = make_pair(a1 + 1, b1);
+            interval int2 = make_pair(m + 1, lr.second);
             getIntervalsRec(a, bwt, indexOfNode * 2 + 1, int1, int2, list);
         }
     }
@@ -109,27 +79,35 @@ void getIntervalsRec(Alphabet &a, BWTree &bwt, int indexOfNode, interval &ij, in
  * */
 std::vector<interval> getIntervals(Alphabet &a, BWTree &bwt, interval ij) {
     std::vector<interval> list;
-    interval alp = setInterval(0, a.length());
+    interval alp = make_pair(0, a.length());
 
     // func that compute all subinterval
     getIntervalsRec(a, bwt, 1, ij, alp, list);
     return list;
 }
 
-char *bw_transformation(int *SA, char *S, int n) {
-    char *BWTrans = (char *) malloc(n * sizeof(char));
+std::string bw_transformation(std::string S) {
+    std::string BWTrans = std::string();
+    auto n = S.length();
+    int *SA = (int *) malloc(n * sizeof(int));
+    BWTrans.resize(n);
+
+    // sort
+    divsufsort((const unsigned char *) S.c_str(), SA, static_cast<int>(S.length()), 0);
 
     for (int i = 0, tmp = 0; i < n; ++i) {
         tmp = SA[i];
         BWTrans[i] = tmp == 0 ? '$' : S[tmp - 1];
     }
+    free(SA);
     return BWTrans;
 }
 
-/*
-vector<int> calculate_lcp(string s) {
-    Alphabet a(s);
-    BWTree bwt(s, a);
+
+vector<int> &calculate_lcp(string s) {
+    string BWTrans = bw_transformation(s);
+    Alphabet a(s, true);
+    BWTree bwt(BWTrans, a);
     auto n = s.length();
     vector<interval> list;
     const int bottom = -2;
@@ -139,7 +117,8 @@ vector<int> calculate_lcp(string s) {
     queue<pair<interval, int>> q;
     q.push(make_pair(make_pair(1, n), 0));
     for (; !q.empty(); q.pop()) {
-        auto dq = q.front();
+        auto dq = (pair<interval, int> &&) q.front();
+        std::cout << "[ " << dq.first.first << ", " << dq.first.second << "] " << "\t: " << dq.second << std::endl;
         list = getIntervals(a, bwt, dq.first);
         for (auto i : list) {
             if (lcp[i.second + 1] == bottom) {
@@ -148,4 +127,5 @@ vector<int> calculate_lcp(string s) {
             }
         }
     }
-}*/
+    return lcp;
+}

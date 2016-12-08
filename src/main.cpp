@@ -33,8 +33,7 @@ void test3() {
     Alphabet a("alenp_$");
     BWTree bwt("nle_pl$nnlleee_eaae", a);
 
-    interval ij(1, 19);
-    std::vector<interval> lista = getIntervals(a, bwt, ij);
+    std::vector<interval> lista = getIntervals(a, bwt, make_pair(1, 1));
     for (auto i = 0u; i < lista.size(); i++) {
         std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
     }
@@ -42,8 +41,8 @@ void test3() {
 
 void test4() {
     // intput data
-    char *Text = "abracadabra";
-    int n = strlen(Text);
+    char *Text = (char *) "abracadabra";
+    int n = (int) strlen(Text);
     int i, j;
 
     // allocate
@@ -67,8 +66,8 @@ void test4() {
 
 void test5() {
     // intput data
-    char *S = "el_anele_lepanelen$";
-    int n = strlen(S);
+    char *S = (char *) "el_anele_lepanelen$";
+    int n = (int) strlen(S);
 
     // allocate
     int *SA = (int *) malloc(n * sizeof(int));
@@ -103,33 +102,58 @@ void test5() {
 
 void test6() {
     // intput data
-    char *S = "el_anele_lepanelen$";
-    int n = strlen(S);
-
-    // allocate
-    int *SA = (int *) malloc(n * sizeof(int));
-
-    // sort
-    divsufsort((unsigned char *) S, SA, n, 0);
-
-    char *BWTrans = bw_transformation(SA, S, n);
+    string S("el_anele_lepanelen$");
+    string BWTrans = bw_transformation(S);
 
     Alphabet a(string(S), true);
     BWTree bwt(string(BWTrans), a);
 
-    interval ij(1, 19);
-    std::vector<interval> lista = getIntervals(a, bwt, ij);
+    std::vector<interval> lista = getIntervals(a, bwt, make_pair(1, 19));
     for (auto i = 0u; i < lista.size(); i++) {
         std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
     }
+}
 
+void test7() {
+    // intput data
+    string S("el_anele_lepanelen$");
 
+    std::vector<int> &lista = calculate_lcp(S);
+    std::cout << "[";
+    for (auto i = 0u; i < lista.size(); i++) {
+        std::cout << "  " << lista[i];
+    }
+    std::cout << std::endl;
     // deallocate
-    free(SA);
-    free(BWTrans);
+}
+
+void test8() {
+    string S("el_anele_lepanelen$");
+    string BWTrans = bw_transformation(S);
+
+    Alphabet a(string(S), true);
+    BWTree bwt(string(BWTrans), a);
+
+    std::vector<interval> lista = getIntervals(a, bwt, make_pair(1, 1));
+    for (auto i = 0u; i < lista.size(); i++) {
+        std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
+    }
+}
+
+void test9() {
+    string S("el_anele_lepanelen$");
+    string BWTrans = bw_transformation(S);
+
+    Alphabet a(string(S), true);
+    BWTree bwt(string(BWTrans), a);
+
+    for (int i = 0; i < 4; ++i) {
+        bitvector bitVec = (vector<bool> &&) bwt.get_bitvector_for_index(2);
+        std::cout << show_bitvector(bitVec) << std::endl;
+    }
 }
 
 int main() {
-    test6();
+    test9();
     return 0;
 }
