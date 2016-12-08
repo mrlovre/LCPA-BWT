@@ -19,7 +19,7 @@ class BWTree {
     BWTree(const string&, const Alphabet&);
     string show() const;
     int get_symbol_count(char) const;
-    bitvector &get_bitvector_for_index(int index);
+    const bitvector &get_bitvector_for_index(int index) const;
  private:
     const Alphabet &alphabet_;
     vector<bitvector> array_;

@@ -11,7 +11,6 @@
 #include <bitset>
 #include <cmath>
 
-
 using namespace std;
 
 BWTree::BWTree(const string &s, const Alphabet &a)
@@ -44,8 +43,8 @@ BWTree::BWTree(const string &s, const Alphabet &a)
     }
 }
 
-bitvector &BWTree::get_bitvector_for_index(int index) {
-    return array_[index];
+const bitvector& BWTree::get_bitvector_for_index(int index) const {
+    return (const bitvector &&) array_[index];
 }
 
 string indent(int index) {

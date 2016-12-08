@@ -29,6 +29,6 @@ class Alphabet {
     string sorted_alphabet_;
 };
 
-string show_bitvector(bitvector);
+string show_bitvector(const bitvector&);
 
 #endif /* SRC_ALPHABET_H_ */

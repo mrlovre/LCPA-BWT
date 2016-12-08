@@ -148,8 +148,9 @@ void test9() {
     BWTree bwt(string(BWTrans), a);
 
     for (int i = 0; i < 4; ++i) {
-        bitvector bitVec = (vector<bool> &&) bwt.get_bitvector_for_index(2);
+        auto &bitVec = bwt.get_bitvector_for_index(2);
         std::cout << show_bitvector(bitVec) << std::endl;
+        cout << "T" << endl;
     }
 }
 
