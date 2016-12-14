@@ -41,7 +41,8 @@ int rankFun(bool identity, const bitvector &bitVec, int start, int end) {
  * @param lr: interval of subalphabet
  * @param list: list of all c-omega intervals of given bwt
  * */
-void getIntervalsRec(Alphabet &a, BWTree &bwt, int indexOfNode, interval &ij, interval &lr, std::vector<interval> &list) {
+void
+getIntervalsRec(Alphabet &a, BWTree &bwt, int indexOfNode, interval &ij, interval &lr, std::vector<interval> &list) {
     if (lr.first == lr.second) {
         char c = a[lr.first];
         int Cc = computeNumberOfOccurrencesLetterSmallerThenC(a, bwt, c);
@@ -110,17 +111,17 @@ vector<int> calculate_lcp(string s) {
     vector<interval> list;
     const int bottom = -2;
     vector<int> lcp(n + 1, bottom);
-    lcp[0] = -1;
-    lcp[n] = -1;
+    lcp[0] = lcp[n] = -1;
     queue<pair<interval, int>> q;
     q.push(make_pair(make_pair(1, n), 0));
     for (; !q.empty(); q.pop()) {
-        auto dq = (pair<interval, int> &&) q.front();
+        auto dq =  q.front();
         list = getIntervals(a, bwt, dq.first);
-        for (auto i : list) {
-            if (lcp[i.second + 1] == bottom) {
-                q.push(make_pair(i, dq.second + 1));
-                lcp[i.second + 1] = dq.second;
+        for (auto interv : list) {
+            // NB: interval indices start from 1, but indexing in arrays starts from 0; hence we use interv.second not interv.second+1
+            if (lcp[interv.second] == bottom) {
+                q.push(make_pair(interv, dq.second + 1));
+                lcp[interv.second] = dq.second;
             }
         }
     }
