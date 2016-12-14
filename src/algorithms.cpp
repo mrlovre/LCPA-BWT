@@ -102,21 +102,19 @@ std::string bw_transformation(std::string S) {
     return BWTrans;
 }
 
-
 vector<int> calculate_lcp(string s) {
     string BWTrans = bw_transformation(s);
     Alphabet a(s, true);
     BWTree bwt(BWTrans, a);
     auto n = s.length();
-    vector<interval> list;
     const int bottom = -2;
     vector<int> lcp(n + 1, bottom);
     lcp[0] = lcp[n] = -1;
     queue<pair<interval, int>> q;
     q.push(make_pair(make_pair(1, n), 0));
     for (; !q.empty(); q.pop()) {
-        auto dq =  q.front();
-        list = getIntervals(a, bwt, dq.first);
+        auto dq = q.front();
+        auto list = (vector<interval>&&) getIntervals(a, bwt, dq.first);
         for (auto interv : list) {
             // NB: interval indices start from 1, but indexing in arrays starts from 0; hence we use interv.second not interv.second+1
             if (lcp[interv.second] == bottom) {
