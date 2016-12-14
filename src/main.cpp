@@ -4,8 +4,20 @@
 #include "divsufsort.h"
 #include <string.h>
 #include <malloc.h>
+#include <sstream>
 
 using namespace std;
+
+string read_data() {
+    stringstream ss;
+    string line;
+    while (getline(cin, line)) {
+        if (line[0] == '>') continue;
+        ss << line;
+    }
+    ss << "$";
+    return ss.str();
+}
 
 void test1() {
     Alphabet a("GFADBCE$");
@@ -116,7 +128,8 @@ void test6() {
 
 void test7() {
     // intput data
-    string S("el_anele_lepanelen$");
+    //string S("el_anele_lepanelen$");
+    string S = read_data();
 
     std::vector<int> lista = calculate_lcp(S);
     std::cout << "[";
@@ -154,7 +167,24 @@ void test9() {
     }
 }
 
+void test9a() {
+    string S = read_data();
+    auto a = Alphabet(S, true);
+    cout << (string) a << endl;
+    string BWTrans = bw_transformation(S);
+//    cout << BWTrans << endl;
+    BWTree bwt(BWTrans, a);
+    cout << bwt.show() << endl;
+}
+
+void test9b() {
+    string S = "nle_pl$nnlleee_eaae";
+    Alphabet a(S, true);
+    BWTree bwt(S, a);
+    cout << bwt.show() << endl;
+}
+
 int main() {
-    test7();
+    test9b();
     return 0;
 }

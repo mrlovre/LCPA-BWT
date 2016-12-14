@@ -11,7 +11,7 @@
 using interval = std::pair<int, int>;
 using index_occInS = std::pair<int, int>;
 
-std::vector<interval> getIntervals(Alphabet &a, BWTree &bwt, interval ij);
+std::vector<interval> getIntervals(const Alphabet &a, const BWTree &bwt, interval ij);
 
 std::string bw_transformation(std::string S);
 

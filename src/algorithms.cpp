@@ -13,7 +13,7 @@
  * @param c: letter for searching number of all occurrances letters that are before 'c' in ordered alphaber 'bigSigma'
  * @return: int that represent number of occurrances
  * */
-int computeNumberOfOccurrencesLetterSmallerThenC(Alphabet &a, BWTree &bwt, char c) {
+int computeNumberOfOccurrencesLetterSmallerThenC(const Alphabet &a, const BWTree &bwt, char c) {
     int index = a[c]; // index of char c
     int sum = 0;
     for (int i = 0; i < index; ++i)
@@ -42,7 +42,7 @@ int rankFun(bool identity, const bitvector &bitVec, int start, int end) {
  * @param list: list of all c-omega intervals of given bwt
  * */
 void
-getIntervalsRec(Alphabet &a, BWTree &bwt, int indexOfNode, interval &ij, interval &lr, std::vector<interval> &list) {
+getIntervalsRec(const Alphabet &a, const BWTree &bwt, int indexOfNode, interval &ij, interval &lr, std::vector<interval> &list) {
     if (lr.first == lr.second) {
         char c = a[lr.first];
         int Cc = computeNumberOfOccurrencesLetterSmallerThenC(a, bwt, c);
@@ -76,7 +76,7 @@ getIntervalsRec(Alphabet &a, BWTree &bwt, int indexOfNode, interval &ij, interva
  * @param ij: interval form which we want to get all c-omega subintervals
  * @return: all c-omega intervals
  * */
-std::vector<interval> getIntervals(Alphabet &a, BWTree &bwt, interval ij) {
+std::vector<interval> getIntervals(const Alphabet &a, const BWTree &bwt, interval ij) {
     std::vector<interval> list;
     interval alp = make_pair(0, a.length());
 
