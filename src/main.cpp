@@ -12,10 +12,12 @@ string read_data() {
     stringstream ss;
     string line;
     while (getline(cin, line)) {
-        if (line[0] == '>') continue;
+        if (line[0] == '>')
+            continue;
         ss << line;
     }
     ss << "$";
+    cout << ss.str() << endl;
     return ss.str();
 }
 
@@ -170,11 +172,17 @@ void test9() {
 void test9a() {
     string S = read_data();
     auto a = Alphabet(S, true);
-    cout << (string) a << endl;
+//    cout << (string) a << endl;
     string BWTrans = bw_transformation(S);
 //    cout << BWTrans << endl;
     BWTree bwt(BWTrans, a);
-    cout << bwt.show() << endl;
+//    cout << bwt.show() << endl;
+    auto lista = calculate_lcp(S);
+    cout << "[";
+    for (auto i = 0u; i < lista.size(); i++) {
+        cout << "," << lista[i];
+    }
+    cout << "]" << endl;
 }
 
 void test9b() {
@@ -185,6 +193,6 @@ void test9b() {
 }
 
 int main() {
-    test9b();
+    test9a();
     return 0;
 }

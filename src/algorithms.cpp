@@ -7,7 +7,6 @@
 #include <queue>
 #include "divsufsort.h"
 
-
 /**
  * Function compute number of occurrences letters smaller than 'c' from alphabet defined at 'bigSigma'.
  * @param c: letter for searching number of all occurrances letters that are before 'c' in ordered alphaber 'bigSigma'
