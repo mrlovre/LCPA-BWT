@@ -17,7 +17,7 @@ string read_data() {
         ss << line;
     }
     ss << "$";
-    cout << ss.str() << endl;
+//    cout << ss.str() << endl;
     return ss.str();
 }
 
