@@ -178,11 +178,7 @@ void test9a() {
     BWTree bwt(BWTrans, a);
 //    cout << bwt.show() << endl;
     auto lista = calculate_lcp(S);
-    cout << "[";
-    for (auto i = 0u; i < lista.size(); i++) {
-        cout << "," << lista[i];
-    }
-    cout << "]" << endl;
+    pretty_print(lista);
 }
 
 void test9b() {

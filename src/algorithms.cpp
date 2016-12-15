@@ -7,16 +7,18 @@
 #include <queue>
 #include "divsufsort.h"
 
+using namespace std;
+
 /**
  * Function compute number of occurrences letters smaller than 'c' from alphabet defined at 'bigSigma'.
  * @param c: letter for searching number of all occurrances letters that are before 'c' in ordered alphaber 'bigSigma'
  * @return: int that represent number of occurrances
  * */
 int computeNumberOfOccurrencesLetterSmallerThenC(const Alphabet &a, const BWTree &bwt, char c) {
-    int index = a[c]; // index of char c
+    int index = a[c];  // index of char c
     int sum = 0;
     for (int i = 0; i < index; ++i)
-        sum += bwt.get_symbol_count(a[i]); //number of occurrences letter bigSigma[i] in string S
+        sum += bwt.get_symbol_count(a[i]);  //number of occurrences letter bigSigma[i] in string S
     return sum;
 }
 
@@ -40,8 +42,8 @@ int rankFun(bool identity, const bitvector &bitVec, int start, int end) {
  * @param lr: interval of subalphabet
  * @param list: list of all c-omega intervals of given bwt
  * */
-void
-getIntervalsRec(const Alphabet &a, const BWTree &bwt, int indexOfNode, interval &ij, interval &lr, std::vector<interval> &list) {
+void getIntervalsRec(const Alphabet &a, const BWTree &bwt, int indexOfNode, interval &ij, interval &lr,
+                     std::vector<interval> &list) {
     if (lr.first == lr.second) {
         char c = a[lr.first];
         int Cc = computeNumberOfOccurrencesLetterSmallerThenC(a, bwt, c);
@@ -93,7 +95,7 @@ std::string bw_transformation(std::string S) {
     // sort
     divsufsort((const unsigned char *) S.c_str(), SA, static_cast<int>(S.length()), 0);
 
-    for (int i = 0, tmp = 0; i < n; ++i) {
+    for (auto i = 0u, tmp = 0u; i < n; ++i) {
         tmp = SA[i];
         BWTrans[i] = tmp == 0 ? '$' : S[tmp - 1];
     }
@@ -111,9 +113,13 @@ vector<int> calculate_lcp(string s) {
     lcp[0] = lcp[n] = -1;
     queue<pair<interval, int>> q;
     q.push(make_pair(make_pair(1, n), 0));
+    cout << "BWTrans:" << endl;
+    cout << BWTrans << endl;
+    cout << "BWTree:" << endl;
+    cout << bwt.show() << endl;
     for (; !q.empty(); q.pop()) {
         auto dq = q.front();
-        auto list = (vector<interval>&&) getIntervals(a, bwt, dq.first);
+        auto list = (vector<interval> &&) getIntervals(a, bwt, dq.first);
         for (auto interv : list) {
             // NB: interval indices start from 1, but indexing in arrays starts from 0; hence we use interv.second not interv.second+1
             if (lcp[interv.second] == bottom) {
@@ -121,6 +127,7 @@ vector<int> calculate_lcp(string s) {
                 lcp[interv.second] = dq.second;
             }
         }
+        pretty_print(lcp);
     }
     return lcp;
 }

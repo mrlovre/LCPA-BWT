@@ -11,6 +11,10 @@
 #include <bitset>
 #include <cmath>
 
+#include <iostream>
+
+#include "algorithms.h"
+
 using namespace std;
 
 BWTree::BWTree(const string &s, const Alphabet &a)
@@ -20,16 +24,29 @@ BWTree::BWTree(const string &s, const Alphabet &a)
     map<char, bitvector> symbols_mapping;
 
     auto const upper_bound = 1 << (int) ceil(log2(a.length()));
-    auto const redundancy = upper_bound - a.length() - 1;
+    auto const redundancy = upper_bound - a.length();
+    cout << redundancy << endl;
+    cout << upper_bound << endl;
+
     for (auto const c : (const string) a) {
         auto current_length = upper_bound;
         auto current_index = a[c];
-        auto has_redundancy = current_index > upper_bound - 2 * redundancy;
-        while (current_length > 1 << has_redundancy) {
+        auto has_redundancy = current_index >= upper_bound - 2 * redundancy;
+        if (has_redundancy) {
+            current_index -= (a.length() - redundancy) / 2;
+            current_length /= 2;
+        }
+        while (current_length > 1) {
             symbols_mapping[c].push_back(current_index >= current_length / 2);
             current_index %= current_length / 2;
             current_length /= 2;
         }
+    }
+
+    for (auto c : (const string) a) {
+        cout << c << ": ";
+        pretty_print(symbols_mapping[c]);
+        cout << endl;
     }
 
     for (auto const &c : s) {

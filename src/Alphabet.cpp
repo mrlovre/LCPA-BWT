@@ -55,6 +55,6 @@ Alphabet::operator const string() const {
 
 string show_bitvector(const bitvector &bv) {
     string s;
-    for_each(bv.begin(), bv.end(), [&s](const bool &b) {s += '0' + (int)b;});
+    for_each(bv.begin(), bv.end(), [&s](const bool &b) { s += '0' + (int)b; });
     return s;
 }
