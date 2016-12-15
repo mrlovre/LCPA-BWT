@@ -119,8 +119,10 @@ vector<int> calculate_lcp(string s) {
     cout << bwt.show() << endl;
     for (; !q.empty(); q.pop()) {
         auto dq = q.front();
-        auto list = (vector<interval> &&) getIntervals(a, bwt, dq.first);
+        cout << "q: " << dq.first.first << ", " << dq.first.second << endl;
+        auto list = getIntervals(a, bwt, dq.first);
         for (auto interv : list) {
+            cout << interv.first << ", " << interv.second << endl;
             // NB: interval indices start from 1, but indexing in arrays starts from 0; hence we use interv.second not interv.second+1
             if (lcp[interv.second] == bottom) {
                 q.push(make_pair(interv, dq.second + 1));
