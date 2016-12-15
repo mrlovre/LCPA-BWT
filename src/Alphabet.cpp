@@ -7,7 +7,6 @@
 
 #include <map>
 #include <algorithm>
-#include <iostream>
 #include <set>
 
 #include "Alphabet.h"
@@ -33,8 +32,7 @@ Alphabet::Alphabet(const string &s, bool extract_from_string)
 int Alphabet::operator[](char c) const {
     auto it = charToInt_.find(c);
     if (it == charToInt_.end()) {
-        cerr << "Error: element " << c << " not present in alphabet.";
-        exit(-1);
+        return -1;
     }
     return it->second;
 }
@@ -42,8 +40,7 @@ int Alphabet::operator[](char c) const {
 char Alphabet::operator[](int i) const {
     auto it = intToChar_.find(i);
     if (it == intToChar_.end()) {
-        cerr << "Error: requested " << i << "-th element of alphabet, where size is " << this->length() << "." << endl;
-        exit(-1);
+        return '\0';
     }
     return it->second;
 }

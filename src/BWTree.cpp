@@ -25,8 +25,8 @@ BWTree::BWTree(const string &s, const Alphabet &a)
 
     auto const upper_bound = 1 << (int) ceil(log2(a.length()));
     auto const redundancy = upper_bound - a.length();
-//    cout << redundancy << endl;
-//    cout << upper_bound << endl;
+    cout << redundancy << endl;
+    cout << upper_bound << endl;
 
     for (auto const c : (const string) a) {
         auto current_length = upper_bound;
@@ -43,11 +43,11 @@ BWTree::BWTree(const string &s, const Alphabet &a)
         }
     }
 
-//    for (auto c : (const string) a) {
-//        cout << c << ": ";
-//        pretty_print(symbols_mapping[c]);
-//        cout << endl;
-//    }
+    for (auto c : (const string) a) {
+        cout << c << ": ";
+        pretty_print(symbols_mapping[c]);
+        cout << endl;
+    }
 
     for (auto const &c : s) {
         symbol_occurrences_[c]++;
