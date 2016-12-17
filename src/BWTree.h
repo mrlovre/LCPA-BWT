@@ -11,6 +11,7 @@
 using namespace std;
 
 #include <vector>
+#include <unordered_map>
 
 #include "Alphabet.h"
 
@@ -19,11 +20,13 @@ class BWTree {
     BWTree(const string&, const Alphabet&);
     string show() const;
     int get_symbol_count(char) const;
-    const bitvector &get_bitvector_for_index(int index) const;
+    const bitvector &get_bitvector_for_index(int) const;
+    int rank_func(int, int, int) const;
  private:
     const Alphabet &alphabet_;
     vector<bitvector> array_;
-    map<char, int> symbol_occurrences_;
+    vector<vector<int>> cumulative_sum_array_;
+    unordered_map<char, int> symbol_occurrences_;
 };
 
 #endif

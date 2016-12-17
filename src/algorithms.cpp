@@ -52,10 +52,24 @@ void getIntervalsRec(const Alphabet &a, const BWTree &bwt, int indexOfNode, inte
     } else {
         int m = (lr.first + lr.second) / 2;
 
-        auto &bitVec = bwt.get_bitvector_for_index(indexOfNode);
+//        auto &bitVec = bwt.get_bitvector_for_index(indexOfNode);
+//        int a0_ = rankFun(0, bitVec, 0, ij.first - 1);
+//        int b0_ = a0_ + rankFun(0, bitVec, ij.first - 1, ij.second);
 
-        int a0 = rankFun(0, bitVec, 0, ij.first - 1);
-        int b0 = a0 + rankFun(0, bitVec, ij.first - 1, ij.second);
+        int a0 = bwt.rank_func(indexOfNode, 0, ij.first - 1);
+        int b0 = a0 + bwt.rank_func(indexOfNode, ij.first - 1, ij.second);
+
+//        if (a0 != a0_) {
+//            cerr << "a0 mismatch" << endl;
+//            cerr << "expected: " << a0_ << endl;
+//            cerr << "got: " << a0 << endl;
+//            exit(-1);
+//        } else if (b0 != b0_) {
+//            cerr << "b0 mismatch" << endl;
+//            cerr << "expected: " << b0_ << endl;
+//            cerr << "got: " << b0 << endl;
+//            exit(-1);
+//        }
 
         int a1 = ij.first - 1 - a0;
         int b1 = ij.second - b0;
@@ -119,9 +133,10 @@ vector<int> calculate_lcp(string s) {
 //    cout << "BWTree:" << endl;
 //    cout << bwt.show() << endl;
     for (; !q.empty(); q.pop()) {
+//        cout << "q size: " << q.size() << endl;
         auto dq = q.front();
 //        cout << "q: " << dq.first.first << ", " << dq.first.second << endl;
-        auto list = getIntervals(a, bwt, dq.first);
+        auto list = move(getIntervals(a, bwt, dq.first));
         for (auto interv : list) {
 //            cout << interv.first << ", " << interv.second << endl;
             // NB: interval indices start from 1, but indexing in arrays starts from 0; hence we use interv.second not interv.second+1

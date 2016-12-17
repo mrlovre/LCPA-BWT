@@ -9,11 +9,11 @@
 #define SRC_ALPHABET_H_
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
-using bitvector = vector<bool>;
+using bitvector = vector<char>;
 
 class Alphabet {
  public:
@@ -24,8 +24,8 @@ class Alphabet {
     int length() const;
     operator const string() const;
  private:
-    map<char, int> charToInt_;
-    map<int, char> intToChar_;
+    unordered_map<char, int> charToInt_;
+    vector<char> intToChar_;
     string sorted_alphabet_;
 };
 
