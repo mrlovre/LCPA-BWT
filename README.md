@@ -8,7 +8,6 @@ http://www.fer.unizg.hr/predmet/bio/
 ```sh
 git clone https://github.com/mrlovre/LCPA-BWT
 ```  
-
 2. Compilation: position yourself inside the cloned repository, and compile the code using the supplied makefile:
 ```sh
 cd LCPA_BWT/Release
