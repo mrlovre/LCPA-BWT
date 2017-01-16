@@ -4,15 +4,18 @@ Computing the Longest Common Prefix Array Based on the Burrows-Wheeler Transform
 http://www.fer.unizg.hr/predmet/bio/
 
 # Installation
-1. Clone this project to your local repository. This can be done using the following instruction:  
-```sh  
-git clone https://github.com/mrlovre/LCPA-BWT  
-```  
+1. Clone this project to your local repository. This can be done using the following instruction:
+
+    ```sh
+    git clone https://github.com/mrlovre/LCPA-BWT
+    ```
+
 2. Compilation: position yourself inside the cloned repository, and compile the code using the supplied makefile:
-```sh
-cd LCPA_BWT/Release
-make
-```
+
+    ```sh
+    cd LCPA_BWT/Release
+    make
+    ```
 
 # Usage
 ```sh
