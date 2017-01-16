@@ -7,7 +7,7 @@ http://www.fer.unizg.hr/predmet/bio/
 1. Clone this project to your local repository. This can be done using the following instruction:
 ```sh
 git clone https://github.com/mrlovre/LCPA-BWT
-```
+```  
 
 2. Compilation: position yourself inside the cloned repository, and compile the code using the supplied makefile:
 ```sh
