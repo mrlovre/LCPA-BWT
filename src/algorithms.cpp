@@ -10,66 +10,39 @@
 using namespace std;
 
 /**
- * Function compute number of occurrences letters smaller than 'c' from alphabet defined at 'bigSigma'.
- * @param c: letter for searching number of all occurrances letters that are before 'c' in ordered alphaber 'bigSigma'
- * @return: int that represent number of occurrances
+ * Computes number of occurrences of letters that are lexicographically smaller than given letter,
+ * considering the given alphabet.
+ * @param a: the alphabet,
+ * @patam bwt: binary wavelet tree of the sequence,
+ * @param c: letter to compute the number of occurrences of letters that are lexicographically smaller than it for
+ * @return: number of occurrences
  * */
-int computeNumberOfOccurrencesLetterSmallerThenC(const Alphabet &a, const BWTree &bwt, char c) {
+int letter_occurences(const Alphabet &a, const BWTree &bwt, char c) {
     int index = a[c];  // index of char c
     int sum = 0;
     for (int i = 0; i < index; ++i)
         sum += bwt.get_symbol_count(a[i]);  //number of occurrences letter bigSigma[i] in string S
-//    cout << "occurences before " << c << ": " << sum << endl;
     return sum;
 }
 
 /**
- * Function return number of occurrances bool value 'identity' in 'bitVec' in interval [start, end>.
- * @param identity: bool that represent value that we count in bitVector. It can be false(0) or true(1).
- * @param bitVec: indicator vector that tell us whatever char c goes in left or right subtree
- * @return: value that represents number of 'identity' value in bitVector
- * */
-int rankFun(bool identity, const bitvector &bitVec, int start, int end) {
-    int sum = 0;
-    for (int i = start; i < end; ++i)
-        sum += bitVec[i] == identity ? 1 : 0;
-    return sum;
-}
-
-/**
- * Recurisve function that we need to compute all c-omega intervals.
+ * Recursive function that is needed to compute all c-omega intervals.
  * @param bwt: bwt form what we try to get all c-omega intervals
  * @param ij: interval of bwt that we give to function
  * @param lr: interval of subalphabet
  * @param list: list of all c-omega intervals of given bwt
  * */
-void getIntervalsRec(const Alphabet &a, const BWTree &bwt, int indexOfNode, interval &ij, interval &lr,
-                     std::vector<interval> &list) {
+void get_intervals_rec(const Alphabet &a, const BWTree &bwt, int indexOfNode, interval &ij, interval &lr,
+                       vector<interval> &list) {
     if (lr.first == lr.second) {
         char c = a[lr.first];
-        int Cc = computeNumberOfOccurrencesLetterSmallerThenC(a, bwt, c);
+        int Cc = letter_occurences(a, bwt, c);
         list.push_back(make_pair(Cc + ij.first, Cc + ij.second));
     } else {
         int m = (lr.first + lr.second) / 2;
 
-//        auto &bitVec = bwt.get_bitvector_for_index(indexOfNode);
-//        int a0_ = rankFun(0, bitVec, 0, ij.first - 1);
-//        int b0_ = a0_ + rankFun(0, bitVec, ij.first - 1, ij.second);
-
         int a0 = bwt.rank_func(indexOfNode, 0, ij.first - 1);
         int b0 = a0 + bwt.rank_func(indexOfNode, ij.first - 1, ij.second);
-
-//        if (a0 != a0_) {
-//            cerr << "a0 mismatch" << endl;
-//            cerr << "expected: " << a0_ << endl;
-//            cerr << "got: " << a0 << endl;
-//            exit(-1);
-//        } else if (b0 != b0_) {
-//            cerr << "b0 mismatch" << endl;
-//            cerr << "expected: " << b0_ << endl;
-//            cerr << "got: " << b0 << endl;
-//            exit(-1);
-//        }
 
         int a1 = ij.first - 1 - a0;
         int b1 = ij.second - b0;
@@ -77,12 +50,12 @@ void getIntervalsRec(const Alphabet &a, const BWTree &bwt, int indexOfNode, inte
         if (b0 > a0) {
             interval int1 = make_pair(a0 + 1, b0);
             interval int2 = make_pair(lr.first, m);
-            getIntervalsRec(a, bwt, indexOfNode * 2, int1, int2, list);
+            get_intervals_rec(a, bwt, indexOfNode * 2, int1, int2, list);
         }
         if (b1 > a1) {
             interval int1 = make_pair(a1 + 1, b1);
             interval int2 = make_pair(m + 1, lr.second);
-            getIntervalsRec(a, bwt, indexOfNode * 2 + 1, int1, int2, list);
+            get_intervals_rec(a, bwt, indexOfNode * 2 + 1, int1, int2, list);
         }
     }
 }
@@ -92,17 +65,17 @@ void getIntervalsRec(const Alphabet &a, const BWTree &bwt, int indexOfNode, inte
  * @param ij: interval form which we want to get all c-omega subintervals
  * @return: all c-omega intervals
  * */
-std::vector<interval> getIntervals(const Alphabet &a, const BWTree &bwt, interval ij) {
-    std::vector<interval> list;
+vector<interval> getIntervals(const Alphabet &a, const BWTree &bwt, interval ij) {
+    vector<interval> list;
     interval alp = make_pair(0, a.length() - 1);
 
-    // func that compute all subinterval
-    getIntervalsRec(a, bwt, 1, ij, alp, list);
+    // func that computes all subintervals
+    get_intervals_rec(a, bwt, 1, ij, alp, list);
     return list;
 }
 
-std::string bw_transformation(std::string S) {
-    std::string BWTrans = std::string();
+string bw_transformation(string S) {
+    string BWTrans = string();
     auto n = S.length();
     int *SA = (int *) malloc(n * sizeof(int));
     BWTrans.resize(n);
@@ -128,24 +101,16 @@ vector<int> calculate_lcp(string s) {
     lcp[0] = lcp[n] = -1;
     queue<pair<interval, int>> q;
     q.push(make_pair(make_pair(1, n), 0));
-//    cout << "BWTrans:" << endl;
-//    cout << BWTrans << endl;
-//    cout << "BWTree:" << endl;
-//    cout << bwt.show() << endl;
     for (; !q.empty(); q.pop()) {
-//        cout << "q size: " << q.size() << endl;
         auto dq = q.front();
-//        cout << "q: " << dq.first.first << ", " << dq.first.second << endl;
         auto list = move(getIntervals(a, bwt, dq.first));
         for (auto interv : list) {
-//            cout << interv.first << ", " << interv.second << endl;
             // NB: interval indices start from 1, but indexing in arrays starts from 0; hence we use interv.second not interv.second+1
             if (lcp[interv.second] == bottom) {
                 q.push(make_pair(interv, dq.second + 1));
                 lcp[interv.second] = dq.second;
             }
         }
-        //pretty_print(lcp);
     }
     return lcp;
 }
