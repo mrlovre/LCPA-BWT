@@ -10,7 +10,7 @@
 #include <vector>
 #include <bitset>
 #include <cmath>
-
+#include <unordered_map>
 #include <iostream>
 
 #include "algorithms.h"
@@ -19,14 +19,13 @@ using namespace std;
 
 BWTree::BWTree(const string &s, const Alphabet &a)
         : alphabet_(a),
-          array_(vector<bitvector>(1 << (int) ceil(log2(a.length())), bitvector())),
-          symbol_occurrences_(map<char, int>()) {
-    map<char, bitvector> symbols_mapping;
+          array_(vector<bitvector>(1 << (int) ceil(log2(a.length())), bitvector())) {
+    unordered_map<char, bitvector> symbols_mapping;
 
     auto const upper_bound = 1 << (int) ceil(log2(a.length()));
     auto const redundancy = upper_bound - a.length();
-    cout << redundancy << endl;
-    cout << upper_bound << endl;
+//    cout << redundancy << endl;
+//    cout << upper_bound << endl;
 
     for (auto const c : (const string) a) {
         auto current_length = upper_bound;
@@ -43,11 +42,11 @@ BWTree::BWTree(const string &s, const Alphabet &a)
         }
     }
 
-    for (auto c : (const string) a) {
-        cout << c << ": ";
-        pretty_print(symbols_mapping[c]);
-        cout << endl;
-    }
+//    for (auto c : (const string) a) {
+//        cout << c << ": ";
+//        pretty_print(symbols_mapping[c]);
+//        cout << endl;
+//    }
 
     for (auto const &c : s) {
         symbol_occurrences_[c]++;
@@ -58,10 +57,28 @@ BWTree::BWTree(const string &s, const Alphabet &a)
             index = 2 * index + b;
         }
     }
+
+    for (auto i = 0u; i < array_.size(); i++) {
+        auto const &a = array_[i];
+        cumulative_sum_array_.push_back(vector<int>(a.size() + 1, 0));
+        auto &c = cumulative_sum_array_[i];
+        int prev = 0;
+
+        for (auto j = 0u; j < a.size(); j++) {
+            c[j + 1] = prev + (a[j] == 0);
+            prev = c[j + 1];
+        }
+    }
+
 }
 
 const bitvector& BWTree::get_bitvector_for_index(int index) const {
     return (const bitvector &&) array_[index];
+}
+
+int BWTree::rank_func(int node_index, int start, int end) const {
+    auto const &c = cumulative_sum_array_[node_index];
+    return c[end] - c[start];
 }
 
 string indent(int index) {

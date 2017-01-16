@@ -17,7 +17,7 @@ string read_data() {
         ss << line;
     }
     ss << "$";
-    cout << ss.str() << endl;
+//    cout << ss.str() << endl;
     return ss.str();
 }
 
@@ -172,10 +172,13 @@ void test9() {
 void test9a() {
     string S = read_data();
     auto a = Alphabet(S, true);
+//    cout << "Alphabet done." << endl;
 //    cout << (string) a << endl;
     string BWTrans = bw_transformation(S);
+//    cout << "Transform done." << endl;
 //    cout << BWTrans << endl;
     BWTree bwt(BWTrans, a);
+//    cout << "Tree done." << endl;
 //    cout << bwt.show() << endl;
     auto lista = calculate_lcp(S);
     pretty_print(lista);
@@ -188,7 +191,7 @@ void test9b() {
     cout << bwt.show() << endl;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     test9a();
     return 0;
 }
