@@ -12,14 +12,14 @@
 
 using namespace std;
 
-using interval = std::pair<int, int>;
-using index_occInS = std::pair<int, int>;
+using interval = pair<int, int>;
+using index_occInS = pair<int, int>;
 
-std::vector<interval> getIntervals(const Alphabet &a, const BWTree &bwt, interval ij);
+vector<interval> getIntervals(const Alphabet &a, const BWTree &bwt, interval ij);
 
-std::string bw_transformation(std::string S);
+string bw_transformation(string S);
 
-std::vector<int> calculate_lcp(std::string s);
+vector<int> calculate_lcp(string s);
 
 template<class T> void pretty_print(vector<T> lista) {
     cout << "[" << lista[0];

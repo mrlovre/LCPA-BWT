@@ -47,9 +47,9 @@ void test3() {
     Alphabet a("alenp_$");
     BWTree bwt("nle_pl$nnlleee_eaae", a);
 
-    std::vector<interval> lista = getIntervals(a, bwt, make_pair(1, 1));
+    vector<interval> lista = getIntervals(a, bwt, make_pair(1, 1));
     for (auto i = 0u; i < lista.size(); i++) {
-        std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
+        cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << endl;
     }
 }
 
@@ -122,9 +122,9 @@ void test6() {
     Alphabet a(string(S), true);
     BWTree bwt(string(BWTrans), a);
 
-    std::vector<interval> lista = getIntervals(a, bwt, make_pair(1, 19));
+    vector<interval> lista = getIntervals(a, bwt, make_pair(1, 19));
     for (auto i = 0u; i < lista.size(); i++) {
-        std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
+        cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << endl;
     }
 }
 
@@ -133,12 +133,12 @@ void test7() {
     //string S("el_anele_lepanelen$");
     string S = read_data();
 
-    std::vector<int> lista = calculate_lcp(S);
-    std::cout << "[";
+    vector<int> lista = calculate_lcp(S);
+    cout << "[";
     for (auto i = 0u; i < lista.size(); i++) {
-        std::cout << "  " << lista[i];
+        cout << "  " << lista[i];
     }
-    std::cout << "]" << std::endl;
+    cout << "]" << endl;
     // deallocate
 }
 
@@ -149,9 +149,9 @@ void test8() {
     Alphabet a(string(S), true);
     BWTree bwt(string(BWTrans), a);
 
-    std::vector<interval> lista = getIntervals(a, bwt, make_pair(1, 1));
+    vector<interval> lista = getIntervals(a, bwt, make_pair(1, 1));
     for (auto i = 0u; i < lista.size(); i++) {
-        std::cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << std::endl;
+        cout << "[" << lista[i].first << " .. " << lista[i].second << "]" << endl;
     }
 }
 
@@ -164,24 +164,9 @@ void test9() {
 
     for (int i = 0; i < 4; ++i) {
         auto &bitVec = bwt.get_bitvector_for_index(2);
-        std::cout << show_bitvector(bitVec) << std::endl;
+        cout << show_bitvector(bitVec) << endl;
         cout << "T" << endl;
     }
-}
-
-void test9a() {
-    string S = read_data();
-    auto a = Alphabet(S, true);
-//    cout << "Alphabet done." << endl;
-//    cout << (string) a << endl;
-    string BWTrans = bw_transformation(S);
-//    cout << "Transform done." << endl;
-//    cout << BWTrans << endl;
-    BWTree bwt(BWTrans, a);
-//    cout << "Tree done." << endl;
-//    cout << bwt.show() << endl;
-    auto lista = calculate_lcp(S);
-    pretty_print(lista);
 }
 
 void test9b() {
@@ -192,6 +177,11 @@ void test9b() {
 }
 
 int main(int argc, char *argv[]) {
-    test9a();
+    string S = read_data();
+    auto a = Alphabet(S, true);
+    string BWTrans = bw_transformation(S);
+    BWTree bwt(BWTrans, a);
+    auto lista = calculate_lcp(S);
+    pretty_print(lista);
     return 0;
 }
