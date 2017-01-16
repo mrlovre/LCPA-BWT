@@ -16,11 +16,11 @@ http://www.fer.unizg.hr/predmet/bio/
   	make
   ```
 3) Usage:
-  ```sh
+    ```sh
   	./LCPA-BWT < input_file
-  ```
+    ```
 4) Test:
-	```sh
+    ```sh
 	for input in $(ls data); do 
 			./Release/LCPA-BWT < data/$input > out/$input; 
 	done
@@ -28,4 +28,4 @@ http://www.fer.unizg.hr/predmet/bio/
 	for input in $(ls data); do 
 		diff out/$input expected/$input; 
 	done
-	```
+    ```
