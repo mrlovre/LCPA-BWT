@@ -1,0 +1,14 @@
+\select@language {croatian}
+\contentsline {chapter}{\numberline {1}Uvod}{1}
+\contentsline {chapter}{\numberline {2}Algoritmi}{2}
+\contentsline {section}{\numberline {2.1}Podatkovne strukture}{2}
+\contentsline {subsection}{\numberline {2.1.1}Stablo vali\IeC {\'c}a}{2}
+\contentsline {subsection}{\numberline {2.1.2}Sufiksno polje}{3}
+\contentsline {subsection}{\numberline {2.1.3}Burrows--Wheelerova transformacija (BWT)}{3}
+\contentsline {section}{\numberline {2.2}Izra\IeC {\v c}unavanje LCP na temelju BWT}{3}
+\contentsline {subsection}{\numberline {2.2.1}Primjer}{6}
+\contentsline {chapter}{\numberline {3}Rezultati}{10}
+\contentsline {section}{\numberline {3.1}Tablice i grafovi}{10}
+\contentsline {chapter}{\numberline {4}Zaklju\IeC {\v c}ak}{13}
+\contentsline {chapter}{\numberline {5}Literatura}{14}
+\contentsline {chapter}{\numberline {6}Sa\IeC {\v z}etak}{15}
